@@ -231,17 +231,17 @@ class NgrokPlugin(octoprint.plugin.SettingsPlugin,
 	def get_update_information(self):
 		return dict(
 			ngrok=dict(
-				displayName="Ngrok Plugin",
+				displayName="Ngrok SSH Plugin",
 				displayVersion=self._plugin_version,
 
 				# version check: github repository
 				type="github_release",
-				user="fieldOfView",
-				repo="OctoPrint-ngrok",
+				user="randomx10",
+				repo="OctoPrint-ngrok-ssh",
 				current=self._plugin_version,
 
 				# update method: pip
-				pip="https://github.com/fieldOfView/OctoPrint-ngrok/archive/{target_version}.zip"
+				pip="https://github.com/randomx10/OctoPrint-ngrok-ssh/archive/{target_version}.zip"
 			)
 		)
 
@@ -304,7 +304,7 @@ class NgrokPlugin(octoprint.plugin.SettingsPlugin,
 
 		self._logger.info("Opening ngrok tunnel...")
 		options = dict(
-			bind_tls=True,
+			bind_tls=False,
 			inspect=False,
 			auth="%s:%s" % (
 				self._settings.get(["auth_name"]),
@@ -319,9 +319,9 @@ class NgrokPlugin(octoprint.plugin.SettingsPlugin,
 
 		try:
 			if self._legacy_ngrok:
-				tunnel = ngrok.connect(port=self._settings.get_int(["port"]), options=options, pyngrok_config=pyngrok_config)  # type:str
+				tunnel = ngrok.connect(port=self._settings.get_int(["port"]),"tcp", options=options, pyngrok_config=pyngrok_config)  # type:str
 			else:
-				tunnel = ngrok.connect(addr=self._settings.get_int(["port"]), pyngrok_config=pyngrok_config, **options)  # type:NgrokTunnel
+				tunnel = ngrok.connect(addr=self._settings.get_int(["port"]),"tcp", pyngrok_config=pyngrok_config, **options)  # type:NgrokTunnel
 			self._ngrok_started = True
 		except PyngrokNgrokError:
 			self._logger.error("Could not connect with the provided API key")
