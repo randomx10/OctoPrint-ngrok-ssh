@@ -372,7 +372,7 @@ __license__ = 'GNU Affero General Public License http://www.gnu.org/licenses/agp
 __copyright__ = "Copyright (C) 2020 Aldo Hoeben / fieldOfView - Released under terms of the AGPLv3 License"
 
 __plugin_name__ = "Ngrok Tunnel"
-__plugin_pythoncompat__ = ">=2.7,<4" # python 2 and 3
+__plugin_pythoncompat__ = ">=3.7,<4" # python 2 and 3
 
 def __plugin_load__():
 	global __plugin_implementation__
